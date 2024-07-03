@@ -1,12 +1,11 @@
-# Power BI RFM Analysis Dashboard
+# Strategic Customer Segmentation: An RFM Analysis with Power BI
 
 ## Overview
 
-This repository contains a comprehensive Power BI project that demonstrates advanced data visualization and analytical insights using Recency, Frequency, and Monetary (RFM) analysis. The project aims to segment customers based on their purchasing behavior to drive strategic business decisions.
+Welcome to the Customer RFM (Recency, Frequency, Monetary) Analysis Project! This initiative provides comprehensive insights into customer behavior, engagement, and value, showcasing the power of RFM analysis. By understanding and segmenting customers, this project demonstrates how to drive targeted marketing strategies, enhance customer retention, and maximize business profitability. Key features include the use of DAX expressions for precise calculations, interactive visualizations with dynamic filters and tooltips for an enhanced user experience, and a thorough data analysis with actionable recommendations. Additionally, a fictionalized timeline and roadmap outline the proposed steps for implementation.
 
 ## Table of Contents
 
-- [Project Description](#project-description)
 - [Features](#features)
 - [Data Source](#data-source)
 - [Usage](#usage)
@@ -15,17 +14,13 @@ This repository contains a comprehensive Power BI project that demonstrates adva
 - [Future Work](#future-work)
 - [Contact](#contact)
 
-## Project Description
-
-The RFM Analysis Dashboard is designed to help businesses understand their customer base by analyzing their purchasing behavior. This project leverages Power BI's advanced data visualization capabilities to segment customers and provide actionable insights.
-
 ## Features
 
-- **Interactive Visualizations**: Detailed and interactive charts and graphs to explore customer segments.
-- **RFM Segmentation**: Breakdown of customers based on Recency, Frequency, and Monetary values.
-- **Tooltips and Annotations**: Detailed explanations and insights available through tooltips on each page.
-- **Dynamic Filters**: Slicers for filtering data based on R, F, and M scores.
-- **Comprehensive Analysis**: Pages dedicated to each aspect of RFM, including detailed segment analysis.
+- **Interactive Visualizations**: Engaging and interactive charts and graphs to explore various customer segments in depth.
+- **RFM Segmentation**: Detailed breakdown of customers based on Recency, Frequency, and Monetary values.
+- **Tooltips and Annotations**: Comprehensive explanations and insights are available through interactive tooltips on each page.
+- **Dynamic Filters**: Slicers enabling data filtering based on R, F, and M scores for tailored analysis.
+- **Comprehensive Analysis**: Dedicated pages for each aspect of RFM, including thorough segment analysis.
 
 ## Data Source
 
@@ -51,10 +46,8 @@ Our data comes from retail store sales transactions available on Kaggle. [The an
 
 
 ## Understanding RFM Analysis
-### RFM Analysis Overview:
 RFM (Recency, Frequency, Monetary) analysis is a quantitative technique utilized to segment customers based on their purchasing patterns. This method helps businesses pinpoint their most valuable customers and customize marketing strategies to maximize engagement and profitability.
 
-### Purpose of RFM Analysis:
 The primary aim of RFM analysis is to enhance customer retention, boost sales, and improve overall business performance. By gaining insights into customer behavior, businesses can make informed decisions to foster stronger customer relationships.
 
 ### Benefits of RFM Analysis:
@@ -63,34 +56,43 @@ The primary aim of RFM analysis is to enhance customer retention, boost sales, a
 - Improvement in Customer Retention and Loyalty: By understanding customer behavior, businesses can implement strategies to keep customers engaged and loyal.
 - Revenue Increase Through Targeted Strategies: Employing focused marketing strategies on segmented customer groups can drive higher sales and revenue growth.
 
-### RFM Analysis Process:
+## RFM Analysis Process:
 - **Recency:** Measures how recently a customer has made a purchase. Customers who have purchased recently are more likely to buy again compared to those who haven't made a purchase in a long time.
 - **Frequency:** Tracks how often a customer makes a purchase. Frequent purchasers are typically more loyal and valuable.
 - **Monetary:** Evaluates how much money a customer has spent. Higher spending customers are generally more valuable to the business.
 
 ### How to Generate RFM Scores
 To generate RFM scores, follow these steps using four key parameters:
-- Identify the Customer: Use a unique identifier such as a customer name or ID.
-- Recency: Determine the number of days since the customer's last purchase.
-- Frequency: Calculate the total number of transactions made by the customer.
-- Monetary: Compute the total amount spent by the customer (also known as 'ticket size').
+- **Identify the Customer:** Use a unique identifier such as a customer name or ID.
+- **Recency:** Determine the number of days since the customer's last purchase.
+- **Frequency:** Calculate the total number of transactions made by the customer.
+- **Monetary:** Compute the total amount spent by the customer (also known as 'ticket size').
 Each customer is then assigned an RFM score on a scale from 1 to 5 for each of these parameters, where 1 indicates the lowest value and 5 indicates the highest. This scoring helps in segmenting customers based on their purchasing behavior and value to the business.
 
-![RFN Scores Description](images/rfm_explanation.png)
+
+
 *Description of Segmentation*
 
-![RFM Scores](images/rfm_scores.png)
+![RFN Scores Description](images/rfm_explanation.webp)
+
 *RFM Scores*
 
-DAX (Data Analysis Expression) for RFM
-- To calculate the ‘R value’, we need to know the latest date of the transaction. Therefore, we’ll create a new measure called ‘last transaction date’
+![RFM Scores](images/rfm_scores.webp)
+
+
+
+### DAX (Data Analysis Expression) for RFM
+1. To determine the ‘R value’, we need the most recent transaction date, so we’ll introduce a new measure named ‘last transaction date’.
+
 
 ```
 -- To create a new measure called 'last transaction date'
 last transaction date =
 MAXX(FILTER('scanner_data','scanner_data'[Customer_ID]='scanner_data'[Customer_ID]),'scanner_data'[Date])
 ```
-- Create a new measure for R-value and F-value (number of the ticket)
+
+2. Establish new measures for both the R-value and the F-value.
+
 
 ```
 -- To create a new measure called 'R value'
@@ -99,7 +101,9 @@ R value = DATEDIFF('scanner_data'[last transaction date],TODAY(),DAY)
 F value = DISTINCTCOUNT('scanner_data'[Transaction_ID])
 ```
 
-- Create a new measure for M-value:
+
+3. Introduce a new measure for the M-value.
+
 
 ```
 -- To create a new measure called 'M value'
@@ -110,7 +114,9 @@ Return
 DIVIDE (TotalSales,TotalQuantity,0)
 ```
 
-- Next, Generate the new table called ‘RFM table’; To create the ‘RFM table’ use dax as below
+
+4. Proceed by generating a new table named ‘RFM table’; use the following DAX formula to create it.
+
 
 ```
 -- To create a new table called 'RFM table'
@@ -121,12 +127,17 @@ RFM table = SUMMARIZE(
    "M Value",[M Value])
 ```
 
-- After we generate the ‘RFM table’, we get the table as shown below
 
-![RFM Table Example](images/rfm_table_example.png)
+- Once the ‘RFM table’ is generated, it appears as shown below.
+
 *RFM Table Example*
 
-- Next, we create a new column ‘R Score’, ‘F Score, and ‘M Score’. We separate group each data by percentile.
+![RFM Table Example](images/rfm_table_example.webp)
+
+
+
+5. We will then create new columns ‘R Score’, ‘F Score’, and ‘M Score’, grouping each dataset by percentile.
+
 
 ```
 -- To create a new column called 'R Score'
@@ -161,17 +172,22 @@ SWITCH (
        )
 ```
 
-- Create the new column called ‘RFM’ by concatenating columns ‘R Score’, ‘F Score’, and ‘M Score’
+
+6. Form the new column ‘RFM’ by merging the columns ‘R Score’, ‘F Score’, and ‘M Score’.
+
 
 ```
 -- To create a new column called 'RFM'
 RFM = 'RFM table'[R Score]& 'RFM table'[F Score]&'RFM table'[M Score]
 ```
 
-- To create a relationship between the ‘RFM table’ and the ‘Segmnt-Scores Table’ by using the columns ‘RFM’ in the RFM table and ‘Scores’ in the Segmnt-Scores table.
 
-![RFM Relationship](images/rfm_relationship.png)
+7. Establish a relationship between the ‘RFM table’ and the ‘Segment-Scores Table’ using the ‘RFM’ column in the RFM table and the ‘Scores’ column in the Segment-Scores table.
+
 *Relationship between RFM table and Segment-Scores table*
+
+![RFM Relationship](images/rfm_relationship.webp)
+
 
 
 
@@ -180,7 +196,7 @@ RFM = 'RFM table'[R Score]& 'RFM table'[F Score]&'RFM table'[M Score]
 ![Dashboard Overview](images/dashboard_overview.png)
 *Dashboard Overview Page*
 
-![RFM Dashboard](_.png)
+![RFM Dashboard](images/rfm_dashboard.png)
 *RFM Dashboard*
 
 ![Customer Segmentation](images/customer_segmentation.png)
@@ -207,18 +223,18 @@ RFM = 'RFM table'[R Score]& 'RFM table'[F Score]&'RFM table'[M Score]
 ## Insights and Analysis
 
 ### Recency Insights
-The majority of customers have made recent purchases, indicating high engagement.
-A significant drop-off in customer count as recency values increase suggests a need for retention strategies.
+- The majority of customers have made recent purchases, indicating high engagement.
+- A significant drop-off in customer count as recency values increase suggests a need for retention strategies.
 ### Frequency Insights
-High-frequency customers are loyal and frequently return to make purchases.
-Targeting low-frequency customers with marketing campaigns can increase their engagement.
+- High-frequency customers are loyal and frequently return to make purchases.
+- Targeting low-frequency customers with marketing campaigns can increase their engagement.
 ### Monetary Insights
-High-value segments like "Champions" and "Promising Customers" contribute significantly to revenue.
-Segments at risk of churning need targeted campaigns to maintain their engagement.
+- High-value segments like "Champions" and "Promising Customers" contribute significantly to revenue.
+- Segments at risk of churning need targeted campaigns to maintain their engagement.
 ### Future Work
-Data Refresh: Implementing automatic data refresh to keep the dashboard updated.
-Advanced Analytics: Adding predictive analytics to forecast customer behavior.
-Publication: Exploring ways to publish the dashboard for broader access.
+- Data Refresh: Implementing automatic data refresh to keep the dashboard updated.
+- Advanced Analytics: Adding predictive analytics to forecast customer behavior.
+- Publication: Exploring ways to publish the dashboard for broader access.
 
 ## Contact
 For more information, please contact:
