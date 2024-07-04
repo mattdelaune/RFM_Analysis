@@ -1,4 +1,4 @@
-# Strategic Customer Segmentation: An RFM Analysis with Power BI
+# Strategic Customer Segmentation: RFM Analysis with Power BI
 
 ## Overview
 
